@@ -1,0 +1,198 @@
+/* ===== Rose Intro — màn mở đầu hoa hồng (20/10) ===== */
+
+html.intro-lock,
+body.intro-lock {
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Giữ tiêu đề trang đứng yên cho tới khi intro tan, rồi mới hiện ra */
+body.intro-lock .header {
+    animation-play-state: paused;
+}
+
+.rose-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    overflow: hidden;
+    font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+    transition: opacity 0.9s ease;
+}
+
+.rose-intro.done {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Sau khi nổ: không chặn thao tác với trang bên dưới */
+.rose-intro.reveal {
+    pointer-events: none;
+}
+
+.rose-intro__bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 46%, #3d0b1f 0%, #230712 52%, #0d0206 100%);
+    transition: opacity 2.4s ease;
+}
+
+.rose-intro.reveal .rose-intro__bg {
+    opacity: 0;
+}
+
+.rose-intro__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------- Màn chờ "Chạm để mở" ---------- */
+.rose-intro__start {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px;
+    text-align: center;
+    z-index: 3;
+    transition: opacity 0.9s ease, visibility 0.9s;
+}
+
+.rose-intro__start.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.rose-intro__bud {
+    font-size: 3.4rem;
+    filter: drop-shadow(0 0 22px rgba(240, 131, 162, 0.75));
+    animation: roseBudPulse 2.6s ease-in-out infinite;
+}
+
+.rose-intro__eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent-rose, #f083a2);
+}
+
+.rose-intro__headline {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 5vw, 2.6rem);
+    line-height: 1.3;
+    color: var(--text-primary, #fff2f5);
+}
+
+.rose-intro__open {
+    margin-top: 14px;
+    padding: 14px 34px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--accent-gold, #fcc96b);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(252, 201, 107, 0.55);
+    border-radius: 999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    box-shadow: 0 0 28px rgba(240, 131, 162, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.rose-intro__open:hover {
+    transform: translateY(-2px);
+    background: rgba(252, 201, 107, 0.12);
+    box-shadow: 0 0 40px rgba(252, 201, 107, 0.35);
+}
+
+/* ---------- Lời chúc ---------- */
+.rose-intro__text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(8vh + env(safe-area-inset-bottom, 0px));
+    padding: 0 24px;
+    text-align: center;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.8s ease, transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    text-shadow: 0 2px 24px rgba(20, 0, 8, 0.85);
+}
+
+.rose-intro__text.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.rose-intro__date {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    color: var(--accent-rose, #f083a2);
+    margin-bottom: 8px;
+}
+
+.rose-intro__title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 4.6vw, 2.5rem);
+    line-height: 1.25;
+    background: linear-gradient(135deg, #ffffff 0%, #ebd3da 45%, #fcc96b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+}
+
+.rose-intro__sub {
+    font-family: var(--font-serif, 'Cormorant Garamond', serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+    color: var(--text-secondary, #ebd3da);
+}
+
+/* ---------- Nút bỏ qua ---------- */
+.rose-intro__skip {
+    position: absolute;
+    right: 18px;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    z-index: 4;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: var(--text-secondary, #ebd3da);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+}
+
+.rose-intro__skip:hover {
+    opacity: 1;
+}
+
+.rose-intro.reveal .rose-intro__skip {
+    display: none;
+}
+
+@keyframes roseBudPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}
